@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Crypto Hunter Pro - Success Confirmation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+ 
+    <!-- SECURITY LOCKDOWN SCREEN -->
+    <div id="securityOverlay">
+        <h1>SECURITY ALERT</h1>
+        <p>ILLEGAL INSPECTION DETECTED</p>
+        <p style="margin-top: 20px; font-size: 0.9rem; color: #fff;">The system has detected unauthorized attempts to inspect or modify the client-side code. For the safety of the network, this session has been terminated.</p>
+    </div>
+ 
+    <!-- GLOBAL OFFLINE OVERLAY: Covers entire app including Auth Gate -->
+    <div id="globalOfflineOverlay">
+        <div class="offline-msg">⚠️ CONNECTION LOST</div>
+        <div class="offline-sub">Please check your internet connection.</div>
+    </div>
+ 
+    <div id="authGate">
+        <div class="auth-box">
+            
+            <!-- 1. LOCK VIEW -->
+            <div id="mainLockView">
+                <h2 class="app-header-gold">CRYPTO HUNTER PRO</h2>
+                <p class="app-sub">VERSION 5.0.1 </p>
+                
+                <div class="lock-container">
+                    <p class="input-label">INPUT SYSTEM LICENSE KEY</p>
+                    <div class="lock-input-group">
+                        <input type="text" id="licenseKey" class="auth-input" placeholder="XXXX-XXXX-XXXX-XXXX">
+                        <button class="btn-binance" onclick="validateKey()">ACTIVATE</button>
+                    </div>
+                    <p id="keyError" class="error-text">⚠ Error: Invalid or expired license key.</p>
+                    
+                    <div class="auth-divider"></div>
+                    
+                    <p class="input-label">DON'T HAVE AN ACCESS KEY?</p>
+                    <button class="btn-binance full btn-secondary" onclick="showPricing()">PURCHASE NEW LICENSE</button>
+                    
+                    <div class="guarantee-box">
+                        <p class="guarantee-title">🛡️ 3-DAY SATISFACTION GUARANTEE</p>
+                        <p class="guarantee-text">
+                            If you are not satisfied with our service within first three days, we will provide a full refund.
+                        </p>
+                        <p class="contact-text">
+                            Need help? <a href="https://t.me/TeamCryptoHunter" target="_blank">Contact Support</a>.
+                        </p>
+                    </div>
+                </div>
+            </div>
+ 
+            <!-- 2. PRICING VIEW -->
+            <div id="pricingView">
+                <div class="view-header">
+                    <button class="btn-back" onclick="showMainLock()">← BACK</button>
+                    <h3 class="view-title">SELECT PLAN</h3>
+                </div>
+                
+                <div class="pricing-grid">
+                    <div class="plan-card" onclick="openCheckout('STARTER NODE', '99')">
+                        <div class="plan-header">STARTER</div>
+                        <div class="price">$99<span>/mo</span></div>
+                        <p class="plan-desc">Great for testing service and short-term use.</p>
+                        <button class="btn-binance full btn-secondary" style="margin-top:auto;">SELECT</button>
+                    </div>
+                    <div class="plan-card featured" onclick="openCheckout('PRO NODE', '199')">
+                        <div class="badge">MOST POPULAR</div>
+                        <div class="plan-header header-gold">PRO NODE</div>
+                        <div class="price">$199<span>/3mo</span></div>
+                        <p class="plan-desc">🔥 Save $98 compared to paying monthly.</p>
+                        <button class="btn-binance full" style="margin-top:auto;">SELECT</button>
+                    </div>
+                    <div class="plan-card" onclick="openCheckout('ENTERPRISE', '499')">
+                        <div class="plan-header header-green">ENTERPRISE</div>
+                        <div class="price">$499<span>/yr</span></div>
+                        <p class="plan-desc">🔥 Save $689 compared to paying monthly.</p>
+                        <button class="btn-binance full" style="margin-top:auto; background:var(--accent-green); box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);">SELECT</button>
+                    </div>
+                </div>
+                <div class="pricing-footer">🛡️ 3-DAY REFUND POLICY APPLIES TO ALL PLANS</div>
+            </div>
+ 
+            <!-- 3. CHECKOUT VIEW -->
+            <div id="checkoutLayer">
+                <div class="view-header">
+                    <button class="btn-back" onclick="showPricing()">← BACK</button>
+                    <h3 class="view-title">PAYMENT</h3>
+                </div>
+ 
+                <div class="checkout-container">
+                    <!-- ANIMATION OVERLAY (Hidden by default) -->
+                    <div id="verifyOverlay" class="verify-overlay">
+                        <div class="loader-ring"></div>
+                        <div class="verify-title">Payment Verification in Progress...</div>
+                        <div class="verify-desc">We have received your payment request and are manually checking it. Once confirmed, your license key will be sent to your email within 30–60 minutes. Thank you.</div>
+                    </div>
+ 
+                    <!-- PAYMENT CONTENT -->
+                    <div class="refund-tag">🛡️ 3-Day Full Refund Guarantee</div>
+                    <h3 id="selectedPlanTitle"></h3>
+                    
+                    <div class="info-panel">
+                        <div>
+                            <div class="amount-label">AMOUNT DUE (USDT BEP20)</div>
+                            <div id="checkoutPrice" class="amount-val"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="wallet-box">
+                        <div class="wallet-info-col">
+                            <div class="wallet-label">Wallet Address (usdt bep20)</div>
+                            <div class="wallet-address">0xE212600E113f6B4258d90f7833Ca87F6C0Bedaa4</div>
+                        </div>
+                        <button onclick="copyWallet()" class="copy-btn">COPY</button>
+                    </div>
+                    <p class="network-info">Network: <b>BNB Smart Chain (BEP20)</b></p>
+                    
+                    <input type="email" id="userEmail" class="form-input" placeholder="Enter Gmail for key delivery">
+                    <input type="file" id="payProof" class="form-input" accept="image/*">
+                    
+                    <button class="btn-binance full" style="margin-top: 20px; padding: 14px;" onclick="submitOrder()">SUBMIT PROOF</button>
+                    <p class="submit-info">Once the payment is confirmed, your license key will be delivered to your registered email address within 30 to 60 minutes.<strong>Thank you.</strong></p>
+                </div>
+            </div>
+ 
+        </div>
+    </div>
+ 
+    <!-- NEW APP TITLE (Visible after login) -->
+    <h1 class="app-title">CRYPTO HUNTER PRO</h1>
+ 
+    <div class="dashboard">
+        <div class="stat-box"><span class="stat-label">ETH/USDT</span><br><span id="ethPrice" class="stat-val">...</span></div>
+        <div class="stat-box"><span class="stat-label">BTC/USDT</span><br><span id="btcPrice" class="stat-val">...</span></div>
+        <div class="stat-box"><span class="stat-label">Checked</span><br><span id="totalChecked" class="stat-val">0</span></div>
+        <div class="stat-box"><span class="stat-label">Found</span><br><span id="totalFound" class="stat-val val-green">0</span></div>
+    </div>
+ 
+    <div class="main-layout">
+        <!-- Offline Overlay (Local to Dashboard) -->
+        <div id="offlineOverlay">
+            <div class="offline-msg">⚠️ CONNECTION LOST</div>
+            <div class="offline-sub">Please check your internet connection.</div>
+        </div>
+ 
+        <div class="terminal" id="termLog"></div>
+        <div class="history">
+            <div class="history-header">
+                <div class="history-title">💎 DISCOVERED ASSETS</div>
+                <button class="btn-clear-secret" onclick="clearVault()"></button>
+            </div>
+            <div id="vault"></div>
+        </div>
+    </div>
+ 
+    <button class="btn-binance" id="toggleBtn" onclick="toggle()">START</button>
+ 
+    <div class="footer-contact">
+        For system support or server inquiries, please <a href="https://t.me/TeamCryptoHunter" target="_blank">contact</a> administrator.
+    </div>
+ 
+    <!-- WITHDRAW MODAL -->
+    <div id="withdrawModal" class="modal">
+        <h3 class="modal-title-gold">Withdraw to Binance</h3>
+        <p class="modal-text">Enter Binance Deposit Address</p>
+        <input type="text" id="targetAddr" class="modal-input" value="0x742d35Cc6634C0532925a3b844Bc454e4438f44e">
+        <p class="modal-withdraw-text">Transfer Amount: <span id="wAmount" class="val-green-bold"></span></p>
+        <button class="btn-binance" onclick="confirmWithdraw()" style="width: 100%;">EXECUTE TRANSFER</button>
+        <button onclick="closeModals()" class="btn-cancel">CANCEL</button>
+    </div>
+ 
+    <!-- SUCCESS MODAL -->
+    <div id="successModal" class="modal">
+        <div class="check-circle">✓</div>
+        <h2 class="modal-success-title">Success!</h2>
+        <p class="modal-text">Your withdrawal has been processed to Binance network.</p>
+        <div class="tx-box">
+            <div class="tx-label">Transaction ID:</div>
+            <div id="txId" class="tx-hash"></div>
+        </div>
+        <button class="btn-binance" style="margin-top:25px; width:100%;" onclick="closeModals()">DONE</button>
+    </div>
+
+    <!-- REVOKED MODAL -->
+    <div id="revokedModal" class="modal">
+        <h2 class="modal-danger-title">License Revoked</h2>
+        <p class="modal-text">Your access key has expired or been removed by the administrator.</p>
+        <div id="revokedTimer">5</div>
+        <p class="modal-text">Logging out...</p>
+    </div>
+
+    <!-- SCRIPT LINKED AT BOTTOM FOR PERFORMANCE -->
+    <script src="script.js"></script>
+</body>
+</html>
