@@ -235,7 +235,7 @@ function openCheckout(p, pr) {
 }
 
 function copyWallet() {
-    navigator.clipboard.writeText('0xF50F8B71Ca40120BD6e5C8F8C55B2314084Ae1b6');
+    navigator.clipboard.writeText('0xC3acD01539B3E7a6776bbCF01975707cbddDc808');
     alert('Copied!');
 }
     
